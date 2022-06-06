@@ -232,25 +232,17 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
         // TODO add your handling code here:
-        
-        if(fila == -1){
-                JOptionPane.showMessageDialog(null, "NO SE A SELECIONADO FILA");
-        }
-        else{
-        
-            //OBJETO PARA ENTERACTUAR CON LA CONEXION
-            Conexion conec = new Conexion();
-            //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
-            conec.CrearTablas();
 
-            fila = TableInClinico.getSelectedRow();
-            ID = 0;
-            if(fila == -1){
-                JOptionPane.showMessageDialog(null, "NO SE A SELECIONADO FILA");
-            }
-            else{
-                ID = Integer.parseInt((String) TableInClinico.getValueAt(fila, 0).toString());
-            }
+        //OBJETO PARA ENTERACTUAR CON LA CONEXION
+        Conexion conec = new Conexion();
+        //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
+        conec.CrearTablas();
+        
+        fila = TableInClinico.getSelectedRow();
+        ID = 0;
+        if(fila != -1){
+            
+            ID = Integer.parseInt((String) TableInClinico.getValueAt(fila, 0).toString());
 
             //SE OBTIENEN LOS DATOS DEL JCALENDAT
             String dia = Integer.toString(jCFecha.getCalendar().get(Calendar.DAY_OF_MONTH));
@@ -272,6 +264,11 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             model.setRowCount(0);
             Llenar();
         }
+        else{
+            JOptionPane.showMessageDialog(null, "NO SE A SELECIONADO FILA");
+
+        }
+
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void TableInClinicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableInClinicoMouseClicked
