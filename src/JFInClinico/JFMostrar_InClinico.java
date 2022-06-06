@@ -240,6 +240,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
         
         fila = TableInClinico.getSelectedRow();
         ID = 0;
+        
         if(fila != -1){
             
             ID = Integer.parseInt((String) TableInClinico.getValueAt(fila, 0).toString());
