@@ -14,11 +14,11 @@ public class InClinico {
     private int ID;
     private String NombCliente;
     private String NombExamen;
-    private int PrecioExamen;
+    private Double PrecioExamen;
     private String Fecha;
 
     //CONSTRUCTOR PARA EL ARREGLO
-    public InClinico(int ID, String NombCliente, String NombExamen, int PrecioExamen, String Fecha) {
+    public InClinico(int ID, String NombCliente, String NombExamen, Double PrecioExamen, String Fecha) {
         this.ID = ID;
         this.NombCliente = NombCliente;
         this.NombExamen = NombExamen;
@@ -39,7 +39,7 @@ public class InClinico {
         return NombExamen;
     }
 
-    public int getPrecioExamen() {
+    public Double getPrecioExamen() {
         return PrecioExamen;
     }
 
