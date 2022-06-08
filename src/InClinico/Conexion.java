@@ -20,7 +20,7 @@ public class Conexion {
     //ESTRUCTURA DE LA TABLA DE INFORMES CLINICOS
     static final String InClinico
             = "CREATE TABLE InClinico(\n"
-            + "ID INT primaty key Auto_Increment,\n"
+            + "ID integer primary key autoincrement,\n"
             + "NombCliente varchar(500),\n"
             + "NombExamen varchar(500),\n"
             + "PrecioExamen INT,\n"

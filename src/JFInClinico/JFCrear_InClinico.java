@@ -6,20 +6,37 @@ package JFInClinico;
 
 import InClinico.CRUD_InClinico;
 import InClinico.Conexion;
+import InClinico.InClRecibo;
 import JFInContable.JFCrear_InContable;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author ulise
  */
-public class JFCrear_InClinico extends javax.swing.JFrame {
-
+public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
+    //OBJETO PARA INTERACTUAR CON LA TABLA
+    DefaultTableModel model;
+    //LISTA PARA ALMACENAR LOS DATOS OBTENIDOS DE LA BASE DE DATOS
+    public static List<InClRecibo> listaInClRecibo = new ArrayList<InClRecibo>();
+    
     /**
      * Creates new form JFCrear_InClinico
      */
     public JFCrear_InClinico() {
         initComponents();
+        model = (DefaultTableModel) this.TableInClRecibo.getModel();
     }
 
     /**
@@ -39,12 +56,28 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
         TxtNombCliente = new javax.swing.JTextField();
         TxtPrecioExamen = new javax.swing.JTextField();
         TxtNombExamen = new javax.swing.JTextField();
-        BtnGuardar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jCFecha = new com.toedter.calendar.JCalendar();
+        BtnAgregar = new javax.swing.JButton();
+        BtnNuevo = new javax.swing.JButton();
+        JPRecibo = new javax.swing.JPanel();
+        jPanelRecibo = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        TxtNomPacienteRecibo = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        TxtFecha = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableInClRecibo = new javax.swing.JTable();
+        TxtTotalExamen = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        BtnEliminar = new javax.swing.JButton();
+        BtnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,13 +128,6 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
-        BtnGuardar.setText("GUARDAR INFORME");
-        BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnGuardarActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("NOMBRE DE PACIENTE");
 
         jLabel3.setText("NOMBRE DE EXAMEN CLINICO");
@@ -110,51 +136,62 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
 
         jLabel5.setText("FECHA EN QUE SE REALIZO");
 
+        BtnAgregar.setText("AGREGAR");
+        BtnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAgregarActionPerformed(evt);
+            }
+        });
+
+        BtnNuevo.setText("NUEVO RECIBO");
+        BtnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnNuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(64, 64, 64))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(BtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(192, 192, 192))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(TxtNombExamen))
-                                .addGap(26, 26, 26)
-                                .addComponent(TxtPrecioExamen)))
-                        .addGap(40, 40, 40))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(TxtNombCliente))
-                        .addGap(122, 122, 122))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(TxtNombExamen)
+                                .addGap(20, 20, 20))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(TxtPrecioExamen)
+                                .addGap(20, 20, 20))))
+                    .addComponent(TxtNombCliente)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(100, 100, 100))))
+                        .addGap(20, 20, 20)
+                        .addComponent(BtnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                        .addGap(31, 31, 31)
+                        .addComponent(BtnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                        .addGap(20, 20, 20)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TxtNombCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
@@ -165,10 +202,165 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(48, 48, 48)
-                .addComponent(BtnGuardar)
+                .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnAgregar)
+                    .addComponent(BtnNuevo))
+                .addGap(15, 15, 15))
+        );
+
+        jPanelRecibo.setBackground(new java.awt.Color(204, 204, 255));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("RECIBO DE EXAMENES REALIZADOS");
+
+        jLabel7.setText("NOMBRE");
+
+        TxtNomPacienteRecibo.setText("NOMBRE PACIENTE");
+
+        jLabel8.setText("FECHA");
+
+        TxtFecha.setText("FECHA");
+
+        TableInClRecibo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre Examen", "Precio"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TableInClRecibo);
+        if (TableInClRecibo.getColumnModel().getColumnCount() > 0) {
+            TableInClRecibo.getColumnModel().getColumn(1).setMinWidth(100);
+            TableInClRecibo.getColumnModel().getColumn(1).setPreferredWidth(10);
+            TableInClRecibo.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
+
+        TxtTotalExamen.setText("TOTAL");
+
+        jLabel9.setText("PRECIO TOTAL:");
+
+        jLabel10.setText("LABORATORIO CLINICO DE ANALISIS HENDRYKS");
+
+        javax.swing.GroupLayout jPanelReciboLayout = new javax.swing.GroupLayout(jPanelRecibo);
+        jPanelRecibo.setLayout(jPanelReciboLayout);
+        jPanelReciboLayout.setHorizontalGroup(
+            jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelReciboLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelReciboLayout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(31, 31, 31))
+                    .addGroup(jPanelReciboLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelReciboLayout.createSequentialGroup()
+                        .addComponent(TxtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(228, 228, 228))
+                    .addGroup(jPanelReciboLayout.createSequentialGroup()
+                        .addComponent(TxtNomPacienteRecibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(169, 169, 169))))
+            .addGroup(jPanelReciboLayout.createSequentialGroup()
+                .addGap(219, 219, 219)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(TxtTotalExamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(32, 32, 32))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelReciboLayout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(64, 64, 64))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelReciboLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addGap(82, 82, 82))
+            .addGroup(jPanelReciboLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelReciboLayout.setVerticalGroup(
+            jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelReciboLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(TxtNomPacienteRecibo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(TxtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(TxtTotalExamen))
+                .addGap(5, 5, 5))
+        );
+
+        javax.swing.GroupLayout JPReciboLayout = new javax.swing.GroupLayout(JPRecibo);
+        JPRecibo.setLayout(JPReciboLayout);
+        JPReciboLayout.setHorizontalGroup(
+            JPReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelRecibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        JPReciboLayout.setVerticalGroup(
+            JPReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelRecibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
+
+        BtnEliminar.setText("ELIMINAR");
+        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEliminarActionPerformed(evt);
+            }
+        });
+
+        BtnGuardar.setText("GUARDAR INFORME");
+        BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGuardarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(BtnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(85, 85, 85)
+                .addComponent(BtnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnEliminar)
+                    .addComponent(BtnGuardar))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,8 +370,13 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JPRecibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -188,36 +385,17 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JPRecibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
-            // TODO add your handling code here:
-            //OBJETO PARA ENTERACTUAR CON LA CONEXION
-            Conexion conec = new Conexion();
-            //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
-            conec.CrearTablas();
-            //SE OBTIENEN LOS DATOS DEL JCALENDAT
-            String dia = Integer.toString(jCFecha.getCalendar().get(Calendar.DAY_OF_MONTH));
-            String mes = Integer.toString(jCFecha.getCalendar().get(Calendar.MONTH));
-            String anio = Integer.toString(jCFecha.getCalendar().get(Calendar.YEAR));
-            //SE OBTIENES LOS DATOS DE LOS INPUTS
-            String NombCliente = TxtNombCliente.getText();
-            String NombExamen = TxtNombExamen.getText();
-            int PrecioExamen = Integer.parseInt(TxtPrecioExamen.getText());
-            //SE ALMACENA LOS VALOR DE LA FECHA
-            String Fecha = dia+ "/" +mes+ "/" +anio;
-
-            //OBJETO PARA ENTERACTUAR CON EL CRUD
-            CRUD_InClinico Cr = new CRUD_InClinico();
-            //SE MANDA LOS VALORES AL INSERTAR
-            Cr.Insertar(NombCliente, NombExamen, PrecioExamen, Fecha);
-        
-    }//GEN-LAST:event_BtnGuardarActionPerformed
 
     private void BtnMosInClinicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnMosInClinicoActionPerformed
         // TODO add your handling code here:
@@ -239,6 +417,133 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_BtnInContableActionPerformed
 
+    private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
+        // TODO add your handling code here:
+        
+        Guardar();
+    }//GEN-LAST:event_BtnNuevoActionPerformed
+
+    private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
+        // TODO add your handling code here:
+        
+        //OBJETO PARA ENTERACTUAR CON LA CONEXION
+        Conexion conec = new Conexion();
+        //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
+        conec.CrearTablas();
+        //SE OBTIENEN LOS DATOS DEL JCALENDAT
+        String dia = Integer.toString(jCFecha.getCalendar().get(Calendar.DAY_OF_MONTH));
+        String mes = Integer.toString(jCFecha.getCalendar().get(Calendar.MONTH));
+        String anio = Integer.toString(jCFecha.getCalendar().get(Calendar.YEAR));
+        //SE OBTIENES LOS DATOS DE LOS INPUTS
+        String NombCliente = TxtNombCliente.getText();
+        String NombExamen = TxtNombExamen.getText();
+        Double PrecioExamen = Double.parseDouble(TxtPrecioExamen.getText());
+        //SE ALMACENA LOS VALOR DE LA FECHA
+        String Fecha = dia+ "/" +mes+ "/" +anio;
+        
+        //OBJETO DEL CONSTRUCTOR
+        InClRecibo InClRecibo = new InClRecibo(NombCliente,NombExamen,PrecioExamen,Fecha);
+        
+        //SE AGREGA EL CONSTRUCTOR AL ARREGLO
+        listaInClRecibo.add(InClRecibo);
+        
+        Llenar();
+        
+    }//GEN-LAST:event_BtnAgregarActionPerformed
+
+    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
+        // TODO add your handling code here:
+        
+        Guardar();
+    }//GEN-LAST:event_BtnGuardarActionPerformed
+
+    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
+        // TODO add your handling code here:
+        
+        int fila = TableInClRecibo.getSelectedRow();
+        if(fila == -1){
+            JOptionPane.showMessageDialog(null, "NO SE A SELECIONADO FILA");
+        }
+        else{
+            listaInClRecibo.remove(fila);
+        }
+        
+        Llenar();
+    }//GEN-LAST:event_BtnEliminarActionPerformed
+
+    public void Guardar(){
+        //OBJETO PARA ENTERACTUAR CON LA CONEXION
+        Conexion conec = new Conexion();
+        //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
+        conec.CrearTablas();
+
+        //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+        for(int PosC = 0; PosC < listaInClRecibo.size(); PosC++){
+
+            //OBJETO PARA ENTERACTUAR CON EL CRUD
+            CRUD_InClinico Cr = new CRUD_InClinico();
+            //SE MANDA LOS VALORES AL INSERTAR
+            Cr.Insertar(listaInClRecibo.get(PosC).getNombCliente(), listaInClRecibo.get(PosC).getNombExamen()
+                        , listaInClRecibo.get(PosC).getPrecioExamen(), listaInClRecibo.get(PosC).getFecha());
+        }
+        
+        Recibo_InClinico RICli = new Recibo_InClinico();
+        
+        JOptionPane.showMessageDialog(null, "DATOS GUARDADOS");
+        
+        Imprimir();
+        
+        TxtNombCliente.setText("");
+        TxtNombExamen.setText("");
+        TxtPrecioExamen.setText("");
+        TxtNomPacienteRecibo.setText("Nombre Paciente");
+        TxtTotalExamen.setText("Total");
+        TxtFecha.setText("Fecha");
+        
+        listaInClRecibo.clear();
+        Llenar();
+        
+    }
+    
+    public void Llenar(){
+        Double Total = 0.0;
+        
+        //SE LIMPIA LA TABLA
+        model.setRowCount(0);
+        
+        //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+        for(int PosC = 0; PosC < listaInClRecibo.size(); PosC++){
+            
+            TxtNomPacienteRecibo.setText(listaInClRecibo.get(PosC).getNombCliente());
+
+            model.addRow(new Object[]{listaInClRecibo.get(PosC).getNombExamen(),listaInClRecibo.get(PosC).getPrecioExamen()});
+            
+            TxtFecha.setText(listaInClRecibo.get(PosC).getFecha());
+            
+            Total = Total+listaInClRecibo.get(PosC).getPrecioExamen();
+        }
+        
+        
+        TxtTotalExamen.setText(""+Total);
+        
+    }
+    
+    public void Imprimir(){
+        try{
+            
+            PrinterJob job = PrinterJob.getPrinterJob();
+            job.setPrintable(this);
+            
+            boolean top = job.printDialog();
+            if(top){
+                job.print();
+            }
+            
+        }catch(PrinterException e){
+            JOptionPane.showMessageDialog(null, "ERROR", "error "+ e, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -280,19 +585,54 @@ public class JFCrear_InClinico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnAgregar;
+    private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnGuardar;
     private javax.swing.JButton BtnInContable;
     private javax.swing.JButton BtnMosInClinico;
+    private javax.swing.JButton BtnNuevo;
+    private javax.swing.JPanel JPRecibo;
+    private javax.swing.JTable TableInClRecibo;
+    private javax.swing.JLabel TxtFecha;
+    private javax.swing.JLabel TxtNomPacienteRecibo;
     private javax.swing.JTextField TxtNombCliente;
     private javax.swing.JTextField TxtNombExamen;
     private javax.swing.JTextField TxtPrecioExamen;
+    private javax.swing.JLabel TxtTotalExamen;
     private com.toedter.calendar.JCalendar jCFecha;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanelRecibo;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public int print(Graphics graf, PageFormat pagFor, int index) throws PrinterException 
+    {
+        
+        if(index>0){
+            return NO_SUCH_PAGE;
+        }
+        
+        Graphics2D gra2d = (Graphics2D) graf;
+        gra2d.translate(pagFor.getImageableX(), pagFor.getImageableY());
+        gra2d.scale(1.0, 1.0);
+        
+        JPRecibo.printAll(graf);
+        
+        return PAGE_EXISTS;
+    }
+
+    
 }
