@@ -13,10 +13,10 @@ public class InClRecibo {
     //VARIABLES DE VALORES ALMACENADOS EN LA BASE DE DATOS
     private String NombCliente;
     private String NombExamen;
-    private int PrecioExamen;
+    private Double PrecioExamen;
     private String Fecha;
 
-    public InClRecibo(String NombCliente, String NombExamen, int PrecioExamen, String Fecha) {
+    public InClRecibo(String NombCliente, String NombExamen, Double PrecioExamen, String Fecha) {
         this.NombCliente = NombCliente;
         this.NombExamen = NombExamen;
         this.PrecioExamen = PrecioExamen;
@@ -31,7 +31,7 @@ public class InClRecibo {
         return NombExamen;
     }
 
-    public int getPrecioExamen() {
+    public Double getPrecioExamen() {
         return PrecioExamen;
     }
 

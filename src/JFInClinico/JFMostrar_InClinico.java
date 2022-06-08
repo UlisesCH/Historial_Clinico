@@ -145,7 +145,15 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             new String [] {
                 "ID", "NomCliente", "NomExamen", "Precio", "Fecha"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TableInClinico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableInClinicoMouseClicked(evt);
@@ -260,7 +268,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             //SE OBTIENES LOS DATOS DE LOS INPUTS
             String NombCliente = TxtNombCliente.getText();
             String NombExamen = TxtNombExamen.getText();
-            int PrecioExamen = Integer.parseInt(TxtPrecioExamen.getText());
+            Double PrecioExamen = Double.parseDouble(TxtPrecioExamen.getText());
             //SE ALMACENA LOS VALOR DE LA FECHA
             String Fecha = dia+ "/" +mes+ "/" +anio;
 
@@ -292,7 +300,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                 ID = Integer.parseInt((String) TableInClinico.getValueAt(fila, 0).toString());
                 String NombCliente = (String) TableInClinico.getValueAt(fila, 1);
                 String NombExamen = (String) TableInClinico.getValueAt(fila, 2);
-                int PrecioExamen = Integer.parseInt((String) TableInClinico.getValueAt(fila, 3).toString());
+                Double PrecioExamen = Double.parseDouble((String) TableInClinico.getValueAt(fila, 3).toString());
                 String Fecha = (String) TableInClinico.getValueAt(fila, 4);
                 
                 TxtNombCliente.setText(NombCliente);

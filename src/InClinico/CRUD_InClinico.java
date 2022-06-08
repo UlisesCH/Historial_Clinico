@@ -41,7 +41,7 @@ public class CRUD_InClinico extends Conexion {
             while(result.next()){
                 //OBJETO DEL CONSTRUCTOR
                 InClinico inclinico = new InClinico(result.getInt("ID"),result.getString("NombCliente")
-                                            ,result.getString("NombExamen"),result.getInt("PrecioExamen")
+                                            ,result.getString("NombExamen"),result.getDouble("PrecioExamen")
                                             ,result.getString("Fecha"));
                 //SE AGREGA EL CONSTRUCTOR AL ARREGLO
                 listaInClinico.add(inclinico);
@@ -56,7 +56,7 @@ public class CRUD_InClinico extends Conexion {
     }
     
     //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
-    public static void Insertar(String NombCliente, String NombExamen, int PrecioExamen, String Fecha){
+    public static void Insertar(String NombCliente, String NombExamen, Double PrecioExamen, String Fecha){
         //VARIABLE PARA EL ID A ALMACENAR
         int id = 0;
         //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
@@ -97,7 +97,7 @@ public class CRUD_InClinico extends Conexion {
     }
     
     //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
-    public static void Modificar(int ID,String NombCliente, String NombExamen, int PrecioExamen, String Fecha){
+    public static void Modificar(int ID,String NombCliente, String NombExamen, Double PrecioExamen, String Fecha){
         //VARIABLE PARA EL ID A ALMACENAR
         int id = 0;
         //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
