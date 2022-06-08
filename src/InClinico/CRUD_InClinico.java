@@ -64,27 +64,16 @@ public class CRUD_InClinico extends Conexion {
         //VARIABLE PARA EL RESULTADO OBTENIDO
         ResultSet result = null;
         try{
-            //SE INDICA LA ACCION CON LA BASE DE DATOS (SE OBTINIENE LOS ID ALMACENADOS)
-            PreparedStatement st = conec.conexion.prepareStatement("select ID from InClinico");
-            //SE ALMACENA LOS RESULTADOS
-            result = st.executeQuery();
             
-            //SE RECORRE TODO LO ALMACENADO
-            while(result.next()){
-                //SE ALMACENA EL VALOR MAS ALTO DEL ID + 1
-                id = result.getInt("ID")+1;
-            }
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE ALMACENA LOS DATOS)
-            st = conec.conexion.prepareStatement(
-                    "insert into InClinico(ID, NombCliente, NombExamen, PrecioExamen, Fecha)\n"
-                    + "values(" +id+ ",'"+NombCliente+"','"+NombExamen+"'," +PrecioExamen+ ",'"+Fecha+"');");
+            PreparedStatement st = conec.conexion.prepareStatement(
+                    "insert into InClinico(NombCliente, NombExamen, PrecioExamen, Fecha)\n"
+                    + "values('"+NombCliente+"','"+NombExamen+"'," +PrecioExamen+ ",'"+Fecha+"');");
             //EJECUTA LA ACCION
             st.execute();
-            
-            JOptionPane.showMessageDialog(null, "DATOS GUARDADOS");
-            
+
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "ERROR AL INSERTAR LOS DATOS " + e);
+            System.out.println(e + " ERROR AL INSERTAR LOS DATOS");
         }
     }
     

@@ -45,7 +45,6 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jCFecha = new com.toedter.calendar.JDateChooser();
         TxtPrecioExamen = new javax.swing.JTextField();
         TxtNombExamen = new javax.swing.JTextField();
         TxtNombCliente = new javax.swing.JTextField();
@@ -54,6 +53,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jCFecha = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableInClinico = new javax.swing.JTable();
@@ -98,21 +98,25 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                                 .addGap(10, 10, 10))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(TxtPrecioExamen))))
+                            .addComponent(TxtPrecioExamen, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4))
-                .addGap(17, 17, 17))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addContainerGap(105, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -121,12 +125,15 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TxtPrecioExamen)
-                        .addComponent(TxtNombExamen)
-                        .addComponent(TxtNombCliente))
-                    .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
-                .addGap(17, 17, 17))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TxtPrecioExamen)
+                            .addComponent(TxtNombExamen)
+                            .addComponent(TxtNombCliente))
+                        .addGap(17, 17, 17))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
@@ -203,7 +210,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                 .addComponent(BtnImprimir)
                 .addGap(67, 67, 67)
                 .addComponent(BtnCrear)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -332,20 +339,20 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnCrearActionPerformed
 
     public void Llenar(){
-            //SE LIMPIA LA TABLA
-            model.setRowCount(0);
-            //OBJETO PARA ENTERACTUAR CON EL CRUD
-            CRUD_InClinico cr = new CRUD_InClinico();
-            //SE LLENA EL ARREGLO CON LOS VALORES DE LA TABLA
-            cr.LlenarTabla();
-            //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
-            for(int PosC = 0; PosC < listaInClinico.size(); PosC++){
+        //SE LIMPIA LA TABLA
+        model.setRowCount(0);
+        //OBJETO PARA ENTERACTUAR CON EL CRUD
+        CRUD_InClinico cr = new CRUD_InClinico();
+        //SE LLENA EL ARREGLO CON LOS VALORES DE LA TABLA
+        cr.LlenarTabla();
+        //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+        for(int PosC = 0; PosC < listaInClinico.size(); PosC++){
 
-                model.addRow(new Object[]{listaInClinico.get(PosC).getID(),listaInClinico.get(PosC).getNombCliente()
-                        ,listaInClinico.get(PosC).getNombExamen(),listaInClinico.get(PosC).getPrecioExamen()
-                        ,listaInClinico.get(PosC).getFecha()});
-            }
+            model.addRow(new Object[]{listaInClinico.get(PosC).getID(),listaInClinico.get(PosC).getNombCliente()
+                    ,listaInClinico.get(PosC).getNombExamen(),listaInClinico.get(PosC).getPrecioExamen()
+                    ,listaInClinico.get(PosC).getFecha()});
         }
+    }
     
     /**
      * @param args the command line arguments
