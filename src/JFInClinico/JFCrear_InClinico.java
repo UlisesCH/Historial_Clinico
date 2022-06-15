@@ -446,13 +446,14 @@ public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
     }//GEN-LAST:event_BtnLimpiarActionPerformed
 
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
-        try {
-            // TODO add your handling code here:
-            
-            //OBJETO PARA ENTERACTUAR CON LA CONEXION
+        //OBJETO PARA ENTERACTUAR CON LA CONEXION
             Conexion conec = new Conexion();
             //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
             conec.CrearTablas();
+        
+        try {
+            // TODO add your handling code here:
+            
             //SE OBTIENEN LOS DATOS DEL JCALENDAT
             String dia = Integer.toString(jCFecha.getCalendar().get(Calendar.DAY_OF_MONTH));
             String mes = Integer.toString(jCFecha.getCalendar().get(Calendar.MONTH)+1);
@@ -465,10 +466,10 @@ public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
             
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE OBTINIENE LOS DATOS ALMACENADOS)
             PreparedStatement st = conec.conexion.prepareStatement("select NombExamen, "
-                    + "PrecioExamen from Examenes where NombExamen ="+CombxExamen.getSelectedItem().toString());
+                    + "PrecioExamen from Examenes where NombExamen ='"+CombxExamen.getSelectedItem().toString()+"'");
             //SE ALMACENA LOS RESULTADOS
             result = st.executeQuery();
-            
+
             String NombExamen = result.getString("NombExamen");
             Double PrecioExamen = result.getDouble("PrecioExamen");
             //SE ALMACENA LOS VALOR DE LA FECHA
@@ -479,6 +480,8 @@ public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
             
             //SE AGREGA EL CONSTRUCTOR AL ARREGLO
             listaInClRecibo.add(InClRecibo);
+            
+            conec.conexion.close();
             
             Llenar();
         } catch (SQLException ex) {
