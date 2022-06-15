@@ -327,10 +327,10 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
         }
         else{
             ID = Integer.parseInt((String) TableInClinico.getValueAt(fila, 0).toString());
+            
+            CRUD_InClinico Cr = new CRUD_InClinico();
+            Cr.Eliminar(ID);
         }
-        
-        CRUD_InClinico Cr = new CRUD_InClinico();
-        Cr.Eliminar(ID);
         
         model.setRowCount(0);
         Llenar();

@@ -4,7 +4,6 @@
  */
 package InContable;
 
-import InClinico.InClinico;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class CRUD_InContable extends Conexion{
         try{
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE OBTINIENE LOS DATOS ALMACENADOS)
             PreparedStatement st = conec.conexion.prepareStatement("select ID, NombProducto, Cantidad, NombProveedor, "
-                                                                        + "PrecioProducto, Fecha from InContable");
+                                                                   + "PrecioProducto, TipoCuenta, Fecha from InContable");
             //SE ALMACENA LOS RESULTADOS
             result = st.executeQuery();
             
@@ -43,7 +42,7 @@ public class CRUD_InContable extends Conexion{
                 //OBJETO DEL CONSTRUCTOR
                 InContable incontable = new InContable(result.getInt("ID"),result.getString("NombProducto")
                                             ,result.getInt("Cantidad"),result.getString("NombProveedor")
-                                            ,result.getInt("PrecioProducto"),result.getString("TipoCuenta")
+                                            ,result.getDouble("PrecioProducto"),result.getString("TipoCuenta")
                                             ,result.getString("Fecha"));
                 //SE AGREGA EL CONSTRUCTOR AL ARREGLO
                 listaInContable.add(incontable);
@@ -56,29 +55,17 @@ public class CRUD_InContable extends Conexion{
     }
     
     //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
-    public static void Insertar(String NombProducto, int Cantidad, String NombProveedor, int PrecioProducto, 
+    public static void Insertar(String NombProducto, int Cantidad, String NombProveedor, Double PrecioProducto, 
                                 String TipoCuenta, String Fecha){
-        //VARIABLE PARA EL ID A ALMACENAR
-        int id = 0;
         //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
         Conexion conec = new Conexion();
-        //VARIABLE PARA EL RESULTADO OBTENIDO
-        ResultSet result = null;
+
         try{
-            //SE INDICA LA ACCION CON LA BASE DE DATOS (SE OBTINIENE LOS ID ALMACENADOS)
-            PreparedStatement st = conec.conexion.prepareStatement("select ID from InContable");
-            //SE ALMACENA LOS RESULTADOS
-            result = st.executeQuery();
-            
-            //SE RECORRE TODO LO ALMACENADO
-            while(result.next()){
-                //SE ALMACENA EL VALOR MAS ALTO DEL ID + 1
-                id = result.getInt("ID")+1;
-            }
+
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE ALMACENA LOS DATOS)
-            st = conec.conexion.prepareStatement(
-                    "insert into InContable(ID, NombProducto, Cantidad, NombProveedor, PrecioProducto, Fecha)\n"
-                    + "values(" +id+ ",'"+NombProducto+"'," +Cantidad+ ",'"+NombProveedor+"'," 
+            PreparedStatement st = conec.conexion.prepareStatement(
+                    "insert into InContable(NombProducto, Cantidad, NombProveedor, PrecioProducto, TipoCuenta, Fecha)\n"
+                    + "values('"+NombProducto+"'," +Cantidad+ ",'"+NombProveedor+"'," 
                             +PrecioProducto+ ",'"+TipoCuenta+"','"+Fecha+"');");
             //EJECUTA LA ACCION
             st.execute();
@@ -104,5 +91,34 @@ public class CRUD_InContable extends Conexion{
             JOptionPane.showMessageDialog(null, "ERROR AL ELIMINAR LOS DATOS " + e);
         }
     }
+    
+    //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
+    public static void Modificar(int ID,String NombProducto, int Cantidad, String NombProveedor, Double PrecioProducto, 
+                                String TipoCuenta, String Fecha){
+        //VARIABLE PARA EL ID A ALMACENAR
+        int id = 0;
+        //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
+        Conexion conec = new Conexion();
+
+        try{
+            
+            String sql = "Update InContable set ID="+ID+", NombProducto='"+NombProducto+
+                        "',Cantidad="+Cantidad+",NombProveedor='"+NombProveedor+
+                        "',PrecioProducto="+PrecioProducto+",TipoCuenta='"+TipoCuenta+
+                        "', Fecha='"+Fecha+"' where ID="+ID;
+            
+            //SE INDICA LA ACCION CON LA BASE DE DATOS (SE ALMACENA LOS DATOS)
+            PreparedStatement st = conec.conexion.prepareStatement(sql);
+            //EJECUTA LA ACCION
+            st.execute();
+            
+            JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS");
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "ERROR AL INSERTAR LOS DATOS " + e);
+        }
+    }
+    
+    
     
 }

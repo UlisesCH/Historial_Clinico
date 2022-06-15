@@ -23,8 +23,15 @@ public class Conexion {
             + "ID integer primary key autoincrement,\n"
             + "NombCliente varchar(500),\n"
             + "NombExamen varchar(500),\n"
-            + "PrecioExamen INT,\n"
+            + "PrecioExamen Double,\n"
             + "Fecha date)";
+    
+    //ESTRUCTURA DE LA TABLA DE INFORMES CLINICOS
+    static final String Examenes
+            = "CREATE TABLE Examenes(\n"
+            + "ID integer primary key autoincrement,\n"
+            + "NombExamen varchar(500),\n"
+            + "PrecioExamen Double)";
     
     static String url = "jdbc:sqlite:BDHisClinico.db";
     
@@ -40,11 +47,13 @@ public class Conexion {
     
     //CREA LA TABLA EN CASO DE NO HABER
     public static boolean CrearTablas(){
+        
         Statement stmt = null;
         try{
             crearConexion();
             stmt = conexion.createStatement();
             stmt.executeUpdate(InClinico);
+            stmt.executeUpdate(Examenes);
             stmt.close();
             conexion.close();
             return true;
@@ -52,6 +61,7 @@ public class Conexion {
             System.out.println(e + " Error al crear Tabla");
         }
         return false;
+
     }
     
 }

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package InClinico;
 
 import java.sql.PreparedStatement;
@@ -5,24 +9,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  *
  * @author ulise
  */
-public class CRUD_InClinico extends Conexion {
+public class CRUD_Examenes extends Conexion{
     
     //LISTA PARA ALMACENAR LOS DATOS OBTENIDOS DE LA BASE DE DATOS
-    public static List<InClinico> listaInClinico = new ArrayList<InClinico>();
+    public static List<Examenes> listaExamenes = new ArrayList<Examenes>();
+    
     
     //LLENA LA TABLA CON LOS DATOS OBTENIDOS DE LA BASE DE DATOS
     public static void LlenarTabla(){
         //SE VACIA LA LISTA
-        listaInClinico.clear();
+        listaExamenes.clear();
         //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
         Conexion conec = new Conexion();
         //CREA LA CONECION Y VERIFICA LA EXISTENCIA DE LA TABLA
@@ -32,23 +33,22 @@ public class CRUD_InClinico extends Conexion {
         
         try{
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE OBTINIENE LOS DATOS ALMACENADOS)
-            PreparedStatement st = conec.conexion.prepareStatement("select ID, NombCliente, NombExamen, "
-                                                                        + "PrecioExamen, Fecha from InClinico");
+            PreparedStatement st = conec.conexion.prepareStatement("select ID, NombExamen, "
+                                                                    + "PrecioExamen from Examenes");
             //SE ALMACENA LOS RESULTADOS
             result = st.executeQuery();
             
             //SE RECORRE TODO LO ALMACENADO
             while(result.next()){
                 //OBJETO DEL CONSTRUCTOR
-                InClinico inclinico = new InClinico(result.getInt("ID"),result.getString("NombCliente")
-                                            ,result.getString("NombExamen"),result.getDouble("PrecioExamen")
-                                            ,result.getString("Fecha"));
+                Examenes examenes = new Examenes(result.getInt("ID"),result.getString("NombExamen")
+                                            ,result.getDouble("PrecioExamen"));
                 //SE AGREGA EL CONSTRUCTOR AL ARREGLO
-                listaInClinico.add(inclinico);
+                listaExamenes.add(examenes);
 
             }
             
-            System.out.println("Se lleno el arreglo con los datos");
+            System.out.println("Se lleno el arreglo con los datos Combo");
             
         }catch(Exception e){
             System.out.println(e + " Error al llenar el arreglo");
@@ -56,16 +56,16 @@ public class CRUD_InClinico extends Conexion {
     }
     
     //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
-    public static void Insertar(String NombCliente, String NombExamen, Double PrecioExamen, String Fecha){
+    public static void Insertar(String NombExamen, Double PrecioExamen){
         //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
         Conexion conec = new Conexion();
-
+        
         try{
             
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE ALMACENA LOS DATOS)
             PreparedStatement st = conec.conexion.prepareStatement(
-                    "insert into InClinico(NombCliente, NombExamen, PrecioExamen, Fecha)\n"
-                    + "values('"+NombCliente+"','"+NombExamen+"'," +PrecioExamen+ ",'"+Fecha+"');");
+                    "insert into Examenes(NombExamen, PrecioExamen)\n"
+                    + "values('"+NombExamen+"'," +PrecioExamen+ ");");
             //EJECUTA LA ACCION
             st.execute();
 
@@ -82,7 +82,7 @@ public class CRUD_InClinico extends Conexion {
         
         try{
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE ELIMINA LOS DATOS SEGUN EL ID)
-            PreparedStatement st = conec.conexion.prepareStatement("delete from InClinico where ID="+id);
+            PreparedStatement st = conec.conexion.prepareStatement("delete from Examenes where ID="+id);
             //EJECUTA LA ACCION
             st.execute();
             
@@ -94,17 +94,16 @@ public class CRUD_InClinico extends Conexion {
     }
     
     //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
-    public static void Modificar(int ID,String NombCliente, String NombExamen, Double PrecioExamen, String Fecha){
+    public static void Modificar(int ID, String NombExamen, Double PrecioExamen){
         //VARIABLE PARA EL ID A ALMACENAR
         int id = 0;
         //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
         Conexion conec = new Conexion();
-    
+        
         try{
             
-            String sql = "Update InClinico set ID="+ID+", NombCliente='"+NombCliente+
-                        "',NombExamen='"+NombExamen+"', PrecioExamen="+PrecioExamen+
-                        ", Fecha='"+Fecha+"' where ID="+ID;
+            String sql = "Update Examenes set ID="+ID+",NombExamen='"+NombExamen+"', "
+                            + "PrecioExamen="+PrecioExamen+" where ID="+ID;
             
             //SE INDICA LA ACCION CON LA BASE DE DATOS (SE ALMACENA LOS DATOS)
             PreparedStatement st = conec.conexion.prepareStatement(sql);

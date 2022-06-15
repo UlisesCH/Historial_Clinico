@@ -20,11 +20,11 @@ public class Conexion {
     //ESTRUCTURA DE LA TABLA DE INFORMES CONTABLE
     static final String InContable
             = "CREATE TABLE InContable(\n"
-            + "ID INT primaty key Auto_Increment,\n"
+            + "ID integer primary key autoincrement,\n"
             + "NombProducto varchar(500),\n"
             + "Cantidad INT,\n"
             + "NombProveedor varchar(500),\n"
-            + "PrecioProducto INT,\n"
+            + "PrecioProducto Double,\n"
             + "TipoCuenta varchar(500),\n"
             + "Fecha date)";
     

@@ -8,10 +8,9 @@ package InContable;
  *
  * @author ulise
  */
-public class InContable {
+public class InConRecibo {
     
     //VARIABLES DE VALORES ALMACENADOS EN LA BASE DE DATOS
-    private int ID;
     private String NombProducto;
     private int Cantidad;
     private String NombProveedor;
@@ -19,22 +18,13 @@ public class InContable {
     private String TipoCuenta;
     private String Fecha;
 
-    //CONSTRUCTOR PARA EL ARREGLO
-    public InContable(int ID, String NombProducto, int Cantidad, String NombProveedor, 
-                        Double PrecioProducto, String TipoCuenta, String Fecha) {
-        this.ID = ID;
+    public InConRecibo(String NombProducto, int Cantidad, String NombProveedor, Double PrecioProducto, String TipoCuenta, String Fecha) {
         this.NombProducto = NombProducto;
         this.Cantidad = Cantidad;
         this.NombProveedor = NombProveedor;
         this.PrecioProducto = PrecioProducto;
         this.TipoCuenta = TipoCuenta;
         this.Fecha = Fecha;
-    }
-
-    //METODOS GET PARA LA OBTENCION DE DATOS
-
-    public int getID() {
-        return ID;
     }
 
     public String getNombProducto() {
@@ -60,6 +50,7 @@ public class InContable {
     public String getFecha() {
         return Fecha;
     }
+    
     
     
 }
