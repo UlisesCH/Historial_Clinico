@@ -87,7 +87,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
         jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("CREAR INFORME DE EXAMEN CLINICO");
+        jLabel1.setText("CREAR INFORME CONTABLE");
 
         BtnMosInContable.setText("MOSTRAR INFORMES");
         BtnMosInContable.addActionListener(new java.awt.event.ActionListener() {
@@ -114,9 +114,9 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
                 .addComponent(BtnInClinico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(50, 50, 50))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(188, 188, 188)
+                .addGap(228, 228, 228)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(195, 195, 195))
+                .addGap(233, 233, 233))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,9 +367,9 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
                         .addGap(169, 169, 169))))
             .addGroup(jPanelReciboLayout.createSequentialGroup()
                 .addGap(219, 219, 219)
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(TxtTotalExamen, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addComponent(TxtTotalExamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelReciboLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
@@ -410,7 +410,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -501,11 +501,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
 
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
         // TODO add your handling code here:
-
-        //OBJETO PARA ENTERACTUAR CON LA CONEXION
-        Conexion conec = new Conexion();
-        //CREA REALIZA LA CONEXION Y CREA LA TABLA SI NO HAY
-        conec.CrearTablas();
+        
         //SE OBTIENEN LOS DATOS DEL JCALENDAT
         String dia = Integer.toString(jCFecha.getCalendar().get(Calendar.DAY_OF_MONTH));
         String mes = Integer.toString(jCFecha.getCalendar().get(Calendar.MONTH)+1);
