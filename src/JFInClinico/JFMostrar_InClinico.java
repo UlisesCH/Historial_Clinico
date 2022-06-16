@@ -45,6 +45,8 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
      */
     public JFMostrar_InClinico() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
         //SE VINCULA CON LA TABLA
         model = (DefaultTableModel) this.TableInClinico.getModel();
         //FUNCION PARA LLENAR LA TABLA
@@ -87,6 +89,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 

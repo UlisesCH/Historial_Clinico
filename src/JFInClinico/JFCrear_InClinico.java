@@ -56,6 +56,7 @@ public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
      */
     public JFCrear_InClinico() {
         initComponents();
+        this.setLocationRelativeTo(null);
         model = (DefaultTableModel) this.TableInClRecibo.getModel();
         
         Combo();
@@ -103,6 +104,7 @@ public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
         BtnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 

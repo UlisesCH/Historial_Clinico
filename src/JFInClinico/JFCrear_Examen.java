@@ -25,6 +25,7 @@ public class JFCrear_Examen extends javax.swing.JFrame {
      */
     public JFCrear_Examen() {
         initComponents();
+        this.setLocationRelativeTo(null);
         
         model = (DefaultTableModel) this.TableExamenes.getModel();
         Llenar();
@@ -58,11 +59,12 @@ public class JFCrear_Examen extends javax.swing.JFrame {
         BtnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("CREAR EXAMENE");
+        jLabel1.setText("CREAR EXAMENES");
 
         BtnCrearExamen.setText("Crear Examen");
         BtnCrearExamen.addActionListener(new java.awt.event.ActionListener() {

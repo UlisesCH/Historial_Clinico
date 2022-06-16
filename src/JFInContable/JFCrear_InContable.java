@@ -36,6 +36,8 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
      */
     public JFCrear_InContable() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
         model = (DefaultTableModel) this.TableInClRecibo.getModel();
         listaInClRecibo.clear();
     }
@@ -83,6 +85,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 255, 255));
 

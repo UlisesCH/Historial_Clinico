@@ -44,6 +44,8 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
      */
     public JFMostrar_InContable() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
         //SE VINCULA CON LA TABLA
         model = (DefaultTableModel) this.TableInContable.getModel();
         //FUNCION PARA LLENAR LA TABLA
@@ -102,6 +104,7 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
