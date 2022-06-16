@@ -168,7 +168,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
 
         jLabel11.setText("CANTIDAD");
 
-        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Tipo de Cuenta", "Caja", "Banco", "Inventario", "Mobiliario", "Ingreso por servicio"}));
+        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Tipo de Cuenta", "Caja", "Banco", "Inventario", "Mobiliario"}));
         CombxCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CombxCuentaActionPerformed(evt);

@@ -10,12 +10,22 @@ import InClinico.CRUD_InClinico;
 import InClinico.Conexion;
 import InClinico.InClRecibo;
 import JFInContable.JFCrear_InContable;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,8 +47,6 @@ import javax.swing.table.DefaultTableModel;
 public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
     //OBJETO PARA INTERACTUAR CON LA TABLA
     DefaultTableModel model;
-    
-    JComboBox combo;
     
     //LISTA PARA ALMACENAR LOS DATOS OBTENIDOS DE LA BASE DE DATOS
     public static List<InClRecibo> listaInClRecibo = new ArrayList<InClRecibo>();
@@ -594,19 +602,50 @@ public class JFCrear_InClinico extends javax.swing.JFrame implements Printable{
     }
     
     public void Imprimir(){
+        Document documento = new Document();
+        
         try{
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + TxtNombCliente.getText().trim() + ".pdf"));
             
-            PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable(this);
+            documento.open();
             
-            boolean top = job.printDialog();
-            if(top){
-                job.print();
-            }
+            Paragraph parrafo = new Paragraph();
             
-        }catch(PrinterException e){
-            JOptionPane.showMessageDialog(null, "ERROR", "error "+ e, JOptionPane.INFORMATION_MESSAGE);
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("LABORATORIO CLINICO DE ANALISIS HENDRYKS\n \n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 14, Font.BOLD, BaseColor.DARK_GRAY));
+            
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("RECIBO DE EXAMENES REALIZADOS\n \n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 14, Font.BOLD, BaseColor.DARK_GRAY));
+            
+            documento.add(parrafo);
+            
+            PdfPTable tablaCliente = new PdfPTable(4);
+            tablaCliente.addCell("Nombre");
+            tablaCliente.addCell("Nombre del Examen");
+            tablaCliente.addCell("Precio");
+            tablaCliente.addCell("Fecha");
+            
+                //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+                for(int PosC = 0; PosC < listaInClRecibo.size(); PosC++){
+                    tablaCliente.addCell(listaInClRecibo.get(PosC).getNombCliente());
+                    tablaCliente.addCell(listaInClRecibo.get(PosC).getNombExamen());
+                    tablaCliente.addCell(listaInClRecibo.get(PosC).getPrecioExamen().toString());
+                    tablaCliente.addCell(listaInClRecibo.get(PosC).getFecha());
+                }
+                documento.add(tablaCliente);
+                
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Reporte creado correctamente");
+            
+        }catch (FileNotFoundException ex) {
+            Logger.getLogger(JFMostrar_InClinico.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(JFMostrar_InClinico.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
     /**

@@ -4,9 +4,24 @@
  */
 package JFInContable;
 
+import InClinico.CRUD_InClinico;
+import static InClinico.CRUD_InClinico.listaInClinico;
 import InContable.Conexion;
 import InContable.CRUD_InContable;
 import static InContable.CRUD_InContable.listaInContable;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -65,6 +80,13 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
         BtnEliminar = new javax.swing.JButton();
         BtnImprimir = new javax.swing.JButton();
         BtnCrear = new javax.swing.JButton();
+        TxtTotalContable = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        TxtBuscar = new javax.swing.JTextField();
+        BtnBuscar = new javax.swing.JButton();
+        BtnRellenar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        TxtTotalExamenes = new javax.swing.JLabel();
 
         jInternalFrame1.setVisible(true);
 
@@ -110,7 +132,7 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
         jLabel4.setText("FECHA");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("MOSTRAR INFORMES DE EXAMENES CLINICOS");
+        jLabel5.setText("MOSTRAR INFORMES CONTABLES");
 
         TxtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,7 +142,7 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
 
         jLabel6.setText("CANTIDAD");
 
-        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Tipo de Cuenta", "Caja", "Banco", "Inventario", "Mobiliario", "Ingreso por servicio" }));
+        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Cuenta", "Caja", "Banco", "Inventario", "Mobiliario"}));
         CombxCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CombxCuentaActionPerformed(evt);
@@ -135,7 +157,7 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TxtNombProducto)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
@@ -145,22 +167,22 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
                         .addComponent(TxtCantidad)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TxtNombProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                    .addComponent(TxtNombProveedor)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(TxtPrecioProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                        .addComponent(TxtPrecioProducto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CombxCuenta, 0, 120, Short.MAX_VALUE)
+                        .addComponent(CombxCuenta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(5, 5, 5))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -172,7 +194,7 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -229,6 +251,11 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
         });
 
         BtnImprimir.setText("Imprimir");
+        BtnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnImprimirActionPerformed(evt);
+            }
+        });
 
         BtnCrear.setText("Crear");
         BtnCrear.addActionListener(new java.awt.event.ActionListener() {
@@ -236,6 +263,23 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
                 BtnCrearActionPerformed(evt);
             }
         });
+
+        TxtTotalContable.setText("0.0");
+
+        jLabel8.setText("PRECIO TOTAL:");
+
+        BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
+
+        BtnRellenar.setText("Rellenar");
+
+        jLabel7.setText("INGRESOS TOTAL:");
+
+        TxtTotalExamenes.setText("0.0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -249,11 +293,27 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
                         .addComponent(BtnModificar)
                         .addGap(18, 18, 18)
                         .addComponent(BtnEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(42, 42, 42)
+                        .addComponent(TxtBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtnRellenar)
+                        .addGap(35, 35, 35)
                         .addComponent(BtnImprimir)
                         .addGap(18, 18, 18)
                         .addComponent(BtnCrear)))
                 .addGap(2, 2, 2))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TxtTotalContable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TxtTotalExamenes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(111, 111, 111))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,10 +323,19 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
                     .addComponent(BtnModificar)
                     .addComponent(BtnEliminar)
                     .addComponent(BtnImprimir)
-                    .addComponent(BtnCrear))
+                    .addComponent(BtnCrear)
+                    .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnBuscar)
+                    .addComponent(BtnRellenar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtTotalContable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TxtTotalExamenes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -420,7 +489,80 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtCantidadActionPerformed
 
+    private void BtnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnImprimirActionPerformed
+        // TODO add your handling code here:
+        
+        Document documento = new Document();
+        
+        try{
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/InformeContable.pdf"));
+            
+            documento.open();
+            
+            Paragraph parrafo = new Paragraph();
+            
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("LABORATORIO CLINICO DE ANALISIS HENDRYKS\n \n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 14, Font.BOLD, BaseColor.DARK_GRAY));
+            
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("Informacion de los Datos Contables. \n \n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 14, Font.BOLD, BaseColor.DARK_GRAY));
+
+            documento.add(parrafo);
+            
+            PdfPTable tablaCliente = new PdfPTable(5);
+            tablaCliente.addCell("ID");
+            tablaCliente.addCell("Nombre");
+            tablaCliente.addCell("Nombre del Examen");
+            tablaCliente.addCell("Precio");
+            tablaCliente.addCell("Fecha");
+            
+            try{
+                String sql = "SELECT * FROM InContable";
+                InContable.Conexion  cn = new InContable.Conexion();
+                cn.CrearTablas();
+                PreparedStatement pst = cn.conexion.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                
+                if(rs.next()){
+                    do{
+                        tablaCliente.addCell(rs.getString(1));
+                        tablaCliente.addCell(rs.getString(2));
+                        tablaCliente.addCell(rs.getString(3));
+                        tablaCliente.addCell(rs.getString(4));
+                        tablaCliente.addCell(rs.getString(5));
+                    } while(rs.next());
+                    documento.add(tablaCliente);
+                }
+                
+            }catch (SQLException ex) {
+                Logger.getLogger(JFMostrar_InContable.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Reporte creado correctamente");
+            
+        }catch (FileNotFoundException ex) {
+            Logger.getLogger(JFMostrar_InContable.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(JFMostrar_InContable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_BtnImprimirActionPerformed
+
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        // TODO add your handling code here:
+        
+        BuscarEnTabla(TxtBuscar.getText());
+        
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
     public void Llenar(){
+        Double Total = 0.0;
+        Double TotalEx = 0.0;
+        
         //SE LIMPIA LA TABLA
         model.setRowCount(0);
         //OBJETO PARA ENTERACTUAR CON EL CRUD
@@ -433,7 +575,51 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
             model.addRow(new Object[]{listaInContable.get(PosC).getID(),listaInContable.get(PosC).getNombProducto(), listaInContable.get(PosC).getCantidad()
                         , listaInContable.get(PosC).getNombProveedor(), listaInContable.get(PosC).getPrecioProducto()
                         , listaInContable.get(PosC).getTipoCuenta(),listaInContable.get(PosC).getFecha()});
+        
+            Total = Total+listaInContable.get(PosC).getPrecioProducto();
         }
+        
+        //OBJETO PARA ENTERACTUAR CON EL CRUD
+        CRUD_InClinico crC = new CRUD_InClinico();
+        //SE LLENA EL ARREGLO CON LOS VALORES DE LA TABLA
+        crC.LlenarTabla();
+        
+        //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+        for(int PosC = 0; PosC < listaInClinico.size(); PosC++){
+            
+            TotalEx = TotalEx+listaInClinico.get(PosC).getPrecioExamen();
+            
+        }
+        
+        TxtTotalExamenes.setText(""+TotalEx);
+        
+        TxtTotalContable.setText(""+Total);
+        
+    }
+    
+    public void BuscarEnTabla(String buscar){
+        Double Total = 0.0;
+        
+        //SE LIMPIA LA TABLA
+        model.setRowCount(0);
+        //OBJETO PARA ENTERACTUAR CON EL CRUD
+        CRUD_InContable cr = new CRUD_InContable();
+        
+        cr.BuscarEnTabla(buscar);
+        
+        //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+        for(int PosC = 0; PosC < listaInContable.size(); PosC++){
+
+            model.addRow(new Object[]{listaInContable.get(PosC).getID(),listaInContable.get(PosC).getNombProducto(), listaInContable.get(PosC).getCantidad()
+                        , listaInContable.get(PosC).getNombProveedor(), listaInContable.get(PosC).getPrecioProducto()
+                        , listaInContable.get(PosC).getTipoCuenta(),listaInContable.get(PosC).getFecha()});
+            
+            Total = Total+listaInContable.get(PosC).getPrecioProducto();
+        }
+        
+        TxtTotalContable.setText(""+Total);
+
+        
     }
     
     /**
@@ -481,16 +667,21 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnCrear;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnImprimir;
     private javax.swing.JButton BtnModificar;
+    private javax.swing.JButton BtnRellenar;
     private javax.swing.JComboBox<String> CombxCuenta;
     private javax.swing.JTable TableInContable;
+    private javax.swing.JTextField TxtBuscar;
     private javax.swing.JTextField TxtCantidad;
     private javax.swing.JTextField TxtNombProducto;
     private javax.swing.JTextField TxtNombProveedor;
     private javax.swing.JTextField TxtPrecioProducto;
+    private javax.swing.JLabel TxtTotalContable;
+    private javax.swing.JLabel TxtTotalExamenes;
     private com.toedter.calendar.JDateChooser jCFecha;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
@@ -499,6 +690,8 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
