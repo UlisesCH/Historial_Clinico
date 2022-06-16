@@ -203,7 +203,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             }
         });
 
-        BtnImprimir.setText("Imprimir");
+        BtnImprimir.setText("PDF");
         BtnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnImprimirActionPerformed(evt);
