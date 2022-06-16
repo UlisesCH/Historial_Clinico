@@ -15,6 +15,22 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Paragraph;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author ulise
@@ -44,6 +60,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         TxtPrecioExamen = new javax.swing.JTextField();
         TxtNombExamen = new javax.swing.JTextField();
@@ -61,6 +78,13 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
         BtnEliminar = new javax.swing.JButton();
         BtnImprimir = new javax.swing.JButton();
         BtnCrear = new javax.swing.JButton();
+        TxtTotalExamen = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        TxtBuscar = new javax.swing.JTextField();
+        BtnBuscar = new javax.swing.JButton();
+        BtnRellenar = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,15 +122,15 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                                 .addGap(10, 10, 10))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(TxtPrecioExamen, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))))
+                            .addComponent(TxtPrecioExamen))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addContainerGap(105, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -179,7 +203,12 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             }
         });
 
-        BtnImprimir.setText("Imprimir");
+        BtnImprimir.setText("PDF");
+        BtnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnImprimirActionPerformed(evt);
+            }
+        });
 
         BtnCrear.setText("Crear");
         BtnCrear.addActionListener(new java.awt.event.ActionListener() {
@@ -188,13 +217,43 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             }
         });
 
+        TxtTotalExamen.setText("0.0");
+
+        jLabel7.setText("PRECIO TOTAL:");
+
+        TxtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtBuscarActionPerformed(evt);
+            }
+        });
+
+        BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
+
+        BtnRellenar.setText("Rellenar tabla");
+        BtnRellenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRellenarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(284, 284, 284)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
+                .addComponent(TxtTotalExamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(257, 257, 257))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BtnModificar)
@@ -202,35 +261,54 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                     .addComponent(BtnImprimir)
                     .addComponent(BtnCrear))
                 .addGap(10, 10, 10))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BtnBuscar)
+                .addGap(56, 56, 56)
+                .addComponent(BtnRellenar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(BtnModificar)
-                .addGap(47, 47, 47)
-                .addComponent(BtnEliminar)
-                .addGap(68, 68, 68)
-                .addComponent(BtnImprimir)
-                .addGap(67, 67, 67)
-                .addComponent(BtnCrear)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnBuscar)
+                    .addComponent(BtnRellenar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(BtnModificar)
+                        .addGap(47, 47, 47)
+                        .addComponent(BtnEliminar)
+                        .addGap(68, 68, 68)
+                        .addComponent(BtnImprimir)
+                        .addGap(67, 67, 67)
+                        .addComponent(BtnCrear))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtTotalExamen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,7 +316,7 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -346,7 +424,89 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_BtnCrearActionPerformed
 
+    private void TxtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtBuscarActionPerformed
+
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        // TODO add your handling code here
+        
+        BuscarEnTabla(TxtBuscar.getText());
+        
+    }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    private void BtnRellenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRellenarActionPerformed
+        // TODO add your handling code here:
+        
+        Llenar();
+        
+    }//GEN-LAST:event_BtnRellenarActionPerformed
+
+    private void BtnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnImprimirActionPerformed
+        // TODO add your handling code here:
+        
+        Document documento = new Document();
+        
+        try{
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/InformeClinico.pdf"));
+            
+            documento.open();
+            
+            Paragraph parrafo = new Paragraph();
+            
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("LABORATORIO CLINICO DE ANALISIS HENDRYKS\n \n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 14, Font.BOLD, BaseColor.DARK_GRAY));
+            
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("Informacion de los Examenes Clinicos. \n \n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 14, Font.BOLD, BaseColor.DARK_GRAY));
+
+            documento.add(parrafo);
+            
+            PdfPTable tablaCliente = new PdfPTable(5);
+            tablaCliente.addCell("ID");
+            tablaCliente.addCell("Nombre");
+            tablaCliente.addCell("Nombre del Examen");
+            tablaCliente.addCell("Precio");
+            tablaCliente.addCell("Fecha");
+            
+            try{
+                String sql = "SELECT * FROM InClinico";
+                Conexion  cn = new Conexion();
+                cn.CrearTablas();
+                PreparedStatement pst = cn.conexion.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                
+                if(rs.next()){
+                    do{
+                        tablaCliente.addCell(rs.getString(1));
+                        tablaCliente.addCell(rs.getString(2));
+                        tablaCliente.addCell(rs.getString(3));
+                        tablaCliente.addCell(rs.getString(4));
+                        tablaCliente.addCell(rs.getString(5));
+                    } while(rs.next());
+                    documento.add(tablaCliente);
+                }
+                
+            }catch (SQLException ex) {
+                Logger.getLogger(JFMostrar_InClinico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Reporte creado correctamente");
+            
+        }catch (FileNotFoundException ex) {
+            Logger.getLogger(JFMostrar_InClinico.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(JFMostrar_InClinico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_BtnImprimirActionPerformed
+
     public void Llenar(){
+        Double Total = 0.0;
+        
         //SE LIMPIA LA TABLA
         model.setRowCount(0);
         //OBJETO PARA ENTERACTUAR CON EL CRUD
@@ -359,7 +519,38 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
             model.addRow(new Object[]{listaInClinico.get(PosC).getID(),listaInClinico.get(PosC).getNombCliente()
                     ,listaInClinico.get(PosC).getNombExamen(),listaInClinico.get(PosC).getPrecioExamen()
                     ,listaInClinico.get(PosC).getFecha()});
+            
+            Total = Total+listaInClinico.get(PosC).getPrecioExamen();
         }
+        
+        TxtTotalExamen.setText(""+Total);
+        
+    }
+    
+    public void BuscarEnTabla(String buscar){
+        
+        Double Total = 0.0;
+        
+        //SE LIMPIA LA TABLA
+        model.setRowCount(0);
+        //OBJETO PARA ENTERACTUAR CON EL CRUD
+        CRUD_InClinico cr = new CRUD_InClinico();
+        
+        cr.BuscarEnTabla(buscar);
+        
+        //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
+        for(int PosC = 0; PosC < listaInClinico.size(); PosC++){
+
+            model.addRow(new Object[]{listaInClinico.get(PosC).getID(),listaInClinico.get(PosC).getNombCliente()
+                    ,listaInClinico.get(PosC).getNombExamen(),listaInClinico.get(PosC).getPrecioExamen()
+                    ,listaInClinico.get(PosC).getFecha()});
+            
+            Total = Total+listaInClinico.get(PosC).getPrecioExamen();
+        }
+        
+        TxtTotalExamen.setText(""+Total);
+
+        
     }
     
     /**
@@ -404,20 +595,26 @@ public class JFMostrar_InClinico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnBuscar;
     private javax.swing.JButton BtnCrear;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnImprimir;
     private javax.swing.JButton BtnModificar;
+    private javax.swing.JButton BtnRellenar;
     private javax.swing.JTable TableInClinico;
+    private javax.swing.JTextField TxtBuscar;
     private javax.swing.JTextField TxtNombCliente;
     private javax.swing.JTextField TxtNombExamen;
     private javax.swing.JTextField TxtPrecioExamen;
+    private javax.swing.JLabel TxtTotalExamen;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jCFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

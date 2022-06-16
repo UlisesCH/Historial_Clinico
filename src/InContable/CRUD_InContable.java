@@ -54,6 +54,45 @@ public class CRUD_InContable extends Conexion{
         }
     }
     
+    //LLENA LA TABLA CON LOS DATOS OBTENIDOS DE LA BASE DE DATOS
+    public static void BuscarEnTabla(String buscar){
+        //SE VACIA LA LISTA
+        listaInContable.clear();
+        //OBJETO PARA TENER INTERACCION CON LA CLASE Conexion
+        Conexion conec = new Conexion();
+        //CREA LA CONECION Y VERIFICA LA EXISTENCIA DE LA TABLA
+        conec.CrearTablas();
+        //VARIABLE PARA EL RESULTADO OBTENIDO
+        ResultSet result = null;
+        
+        try{
+            //SE INDICA LA ACCION CON LA BASE DE DATOS (SE OBTINIENE LOS DATOS ALMACENADOS)
+            PreparedStatement st = conec.conexion.prepareStatement("select * from InContable"
+                                   + "where NombProducto LIKE '"+buscar+"'"
+                                   + "OR NombProveedor LIKE '"+buscar+"'"
+                                   + "OR TipoCuenta LIKE '"+buscar+"'"
+                                   + "OR Fecha LIKE '"+buscar+"'");
+            //SE ALMACENA LOS RESULTADOS
+            result = st.executeQuery();
+            
+            //SE RECORRE TODO LO ALMACENADO
+            while(result.next()){
+                //OBJETO DEL CONSTRUCTOR
+                InContable incontable = new InContable(result.getInt("ID"),result.getString("NombProducto")
+                                            ,result.getInt("Cantidad"),result.getString("NombProveedor")
+                                            ,result.getDouble("PrecioProducto"),result.getString("TipoCuenta")
+                                            ,result.getString("Fecha"));
+                //SE AGREGA EL CONSTRUCTOR AL ARREGLO
+                listaInContable.add(incontable);
+
+            }
+            
+        }catch(Exception e){
+            System.out.println(e + " Error al llenar la tabla");
+        }
+    }
+    
+    
     //INSERTA DATOS A LA TABLA DE LA BASE DE DATOS
     public static void Insertar(String NombProducto, int Cantidad, String NombProveedor, Double PrecioProducto, 
                                 String TipoCuenta, String Fecha){
