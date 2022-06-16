@@ -74,8 +74,6 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
         BtnEliminar = new javax.swing.JButton();
         BtnGuardar = new javax.swing.JButton();
         jPanelRecibo = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        TxtNomProveedor = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         TxtFecha = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -171,7 +169,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
 
         jLabel11.setText("CANTIDAD");
 
-        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Tipo de Cuenta", "Caja", "Banco", "Inventario", "Mobiliario"}));
+        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Tipo de Cuenta", "Inventario||Caja", "Inventario||Banco", "Mobiliario||Caja", "Mobiliario||Banco"}));
         CombxCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CombxCuentaActionPerformed(evt);
@@ -308,10 +306,6 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
 
         jPanelRecibo.setBackground(new java.awt.Color(204, 204, 255));
 
-        jLabel7.setText("NOMBRE");
-
-        TxtNomProveedor.setText("NOMBRE PROVEEDOR");
-
         jLabel8.setText("FECHA");
 
         TxtFecha.setText("FECHA");
@@ -354,20 +348,10 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
             jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelReciboLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelReciboLayout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(31, 31, 31))
-                    .addGroup(jPanelReciboLayout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelReciboLayout.createSequentialGroup()
-                        .addComponent(TxtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(228, 228, 228))
-                    .addGroup(jPanelReciboLayout.createSequentialGroup()
-                        .addComponent(TxtNomProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(169, 169, 169))))
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
+                .addComponent(TxtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(228, 228, 228))
             .addGroup(jPanelReciboLayout.createSequentialGroup()
                 .addGap(219, 219, 219)
                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -388,16 +372,12 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
             .addGroup(jPanelReciboLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel10)
-                .addGap(10, 10, 10)
-                .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(TxtNomProveedor))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(20, 20, 20)
                 .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TxtFecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelReciboLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -494,7 +474,6 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
         TxtNombProducto.setText("");
         TxtNombProveedor.setText("");
         TxtPrecioProducto.setText("");
-        TxtNomProveedor.setText("Nombre Paciente");
         TxtTotalExamen.setText("Total");
         TxtFecha.setText("Fecha");
 
@@ -560,7 +539,6 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
         TxtCantidad.setText("");
         TxtNombProveedor.setText("");
         TxtPrecioProducto.setText("");
-        TxtNomProveedor.setText("Nombre Proveedor");
         TxtTotalExamen.setText("Total");
         TxtFecha.setText("Fecha");
         
@@ -577,9 +555,7 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
         
         //CICLO PARA LLENAR LA TABLA CON LOS VALORES DEL ARREGLO
         for(int PosC = 0; PosC < listaInClRecibo.size(); PosC++){
-            
-            TxtNomProveedor.setText(listaInClRecibo.get(PosC).getNombProveedor());
-
+           
             model.addRow(new Object[]{listaInClRecibo.get(PosC).getNombProducto()
                         ,listaInClRecibo.get(PosC).getCantidad(),listaInClRecibo.get(PosC).getPrecioProducto()});
             
@@ -648,7 +624,6 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
     private javax.swing.JTable TableInClRecibo;
     private javax.swing.JTextField TxtCantidad;
     private javax.swing.JLabel TxtFecha;
-    private javax.swing.JLabel TxtNomProveedor;
     private javax.swing.JTextField TxtNombProducto;
     private javax.swing.JTextField TxtNombProveedor;
     private javax.swing.JTextField TxtPrecioProducto;
@@ -661,7 +636,6 @@ public class JFCrear_InContable extends javax.swing.JFrame implements Printable{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
