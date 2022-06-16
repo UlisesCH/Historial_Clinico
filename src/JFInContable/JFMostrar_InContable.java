@@ -142,7 +142,7 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
 
         jLabel6.setText("CANTIDAD");
 
-        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Cuenta", "Caja", "Banco", "Inventario", "Mobiliario"}));
+        CombxCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Cuenta", "Inventario||Caja", "Inventario||Banco", "Mobiliario||Caja", "Mobiliario||Banco"}));
         CombxCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CombxCuentaActionPerformed(evt);
@@ -512,11 +512,12 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
 
             documento.add(parrafo);
             
-            PdfPTable tablaCliente = new PdfPTable(5);
+            PdfPTable tablaCliente = new PdfPTable(6);
             tablaCliente.addCell("ID");
             tablaCliente.addCell("Nombre");
             tablaCliente.addCell("Nombre del Examen");
             tablaCliente.addCell("Precio");
+            tablaCliente.addCell("Tipo Cuenta");
             tablaCliente.addCell("Fecha");
             
             try{
@@ -528,11 +529,12 @@ public class JFMostrar_InContable extends javax.swing.JFrame {
                 
                 if(rs.next()){
                     do{
-                        tablaCliente.addCell(rs.getString(1));
                         tablaCliente.addCell(rs.getString(2));
                         tablaCliente.addCell(rs.getString(3));
                         tablaCliente.addCell(rs.getString(4));
                         tablaCliente.addCell(rs.getString(5));
+                        tablaCliente.addCell(rs.getString(6));
+                        tablaCliente.addCell(rs.getString(7));
                     } while(rs.next());
                     documento.add(tablaCliente);
                 }

@@ -212,7 +212,7 @@
         <Component class="javax.swing.JComboBox" name="CombxCuenta">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Tipo de Cuenta&quot;, &quot;Caja&quot;, &quot;Banco&quot;, &quot;Inventario&quot;, &quot;Mobiliario&quot;})" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Tipo de Cuenta&quot;, &quot;Inventario||Caja&quot;, &quot;Inventario||Banco&quot;, &quot;Mobiliario||Caja&quot;, &quot;Mobiliario||Banco&quot;})" type="code"/>
             </Property>
           </Properties>
           <Events>
